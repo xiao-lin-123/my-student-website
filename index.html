@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高职学生学习反馈管理系统</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- 顶部导航栏 -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <div class="logo">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="32" height="32" rx="8" fill="#0066FF"/>
+                            <path d="M8 12h16v2H8v-2zm0 4h16v2H8v-2zm0 4h12v2H8v-2z" fill="white"/>
+                        </svg>
+                        <span class="logo-text">学习反馈系统</span>
+                    </div>
+                </div>
+                
+                <div class="nav-right">
+                    <div class="nav-links" id="navLinks">
+                        <!-- 学生导航 -->
+                        <a href="#" class="nav-link active" data-view="my-homework">我的作业</a>
+                        <a href="#" class="nav-link" data-view="my-questions">我的提问</a>
+                        <a href="#" class="nav-link" data-view="completed">已完成</a>
+                        
+                        <!-- 教师导航（隐藏默认显示） -->
+                        <a href="#" class="nav-link teacher-only" data-view="homework-management">作业管理</a>
+                        <a href="#" class="nav-link teacher-only" data-view="student-qa">学生问答</a>
+                        <a href="#" class="nav-link teacher-only" data-view="class-list">班级列表</a>
+                    </div>
+                    
+                    <div class="nav-actions">
+                        <button class="notification-btn" aria-label="通知">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M15 6a3 3 0 1 0-6 0v3a3 3 0 1 0 6 0V6zM2 13a5 5 0 0 1 10 0v3H2v-3z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M6 15h8v1H6v-1z" fill="#6B7280"/>
+                            </svg>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        
+                        <div class="user-menu">
+                            <button class="user-btn" id="userBtn">
+                                <div class="user-avatar">张</div>
+                                <span class="user-name" id="userName">张三同学</span>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                            
+                            <div class="user-dropdown" id="userDropdown">
+                                <div class="dropdown-item">
+                                    <span class="current-role">当前身份：学生</span>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" id="switchRole">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M8 2v12M2 8l6-6 6 6" stroke="#0066FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    切换为教师视图
+                                </button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item logout-btn">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M8 2v12M2 8l6-6 6 6" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    退出登录
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <div class="content-container">
+                <!-- 欢迎标题 -->
+                <div class="welcome-section">
+                    <h1 class="welcome-title" id="welcomeTitle">我的作业</h1>
+                    <p class="welcome-subtitle" id="welcomeSubtitle">查看和提交您的课程作业</p>
+                </div>
+
+                <!-- 学生视图 - 我的作业 -->
+                <div class="view-section" id="my-homework">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon homework-icon"></div>
+                            <div class="stat-info">
+                                <div class="stat-number">8</div>
+                                <div class="stat-label">待提交作业</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon submitted-icon"></div>
+                            <div class="stat-info">
+                                <div class="stat-number">15</div>
+                                <div class="stat-label">已提交</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon graded-icon"></div>
+                            <div class="stat-info">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">已批改</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <h2 class="section-title">最新作业</h2>
+                        <button class="primary-btn">查看全部</button>
+                    </div>
+
+                    <div class="homework-grid">
+                        <div class="homework-card">
+                            <div class="homework-header">
+                                <h3 class="homework-title">JavaScript基础语法练习</h3>
+                                <span class="status-badge pending">待提交</span>
+                            </div>
+                            <p class="homework-desc">完成教材第三章所有例题的编程练习，包括变量声明、函数定义和对象操作。</p>
+                            <div class="homework-meta">
+                                <span class="deadline">截止时间：2025-12-05 23:59</span>
+                                <span class="subject">Web开发技术</span>
+                            </div>
+                            <div class="homework-actions">
+                                <button class="secondary-btn">查看详情</button>
+                                <button class="primary-btn">提交作业</button>
+                            </div>
+                        </div>
+
+                        <div class="homework-card">
+                            <div class="homework-header">
+                                <h3 class="homework-title">数据库设计项目</h3>
+                                <span class="status-badge submitted">已提交</span>
+                            </div>
+                            <p class="homework-desc">设计一个学生管理系统的数据库，包括ER图绘制和SQL建表语句。</p>
+                            <div class="homework-meta">
+                                <span class="deadline">截止时间：2025-11-30 23:59</span>
+                                <span class="subject">数据库原理</span>
+                            </div>
+                            <div class="homework-actions">
+                                <button class="secondary-btn">查看详情</button>
+                                <button class="secondary-btn">重新提交</button>
+                            </div>
+                        </div>
+
+                        <div class="homework-card">
+                            <div class="homework-header">
+                                <h3 class="homework-title">网页布局实战</h3>
+                                <span class="status-badge graded">已批改</span>
+                            </div>
+                            <p class="homework-desc">使用HTML和CSS制作一个响应式个人简介页面，要求包含导航栏、头像和技能展示。</p>
+                            <div class="homework-meta">
+                                <span class="deadline">截止时间：2025-11-25 23:59</span>
+                                <span class="subject">前端开发</span>
+                                <span class="score">得分：92分</span>
+                            </div>
+                            <div class="homework-actions">
+                                <button class="secondary-btn">查看详情</button>
+                                <button class="secondary-btn">查看评语</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 学生视图 - 我的提问 -->
+                <div class="view-section" id="my-questions" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">我的问题</h2>
+                        <button class="primary-btn" id="askQuestionBtn">提出问题</button>
+                    </div>
+
+                    <div class="questions-list">
+                        <div class="question-card">
+                            <div class="question-header">
+                                <span class="question-id">#Q001</span>
+                                <span class="status-badge answered">已回答</span>
+                                <span class="question-time">2小时前</span>
+                            </div>
+                            <h3 class="question-title">关于JavaScript闭包的理解问题</h3>
+                            <p class="question-content">在学习闭包概念时，对作用域链的理解有些困惑，能否通过一个具体的例子来说明？</p>
+                            <div class="question-meta">
+                                <span class="subject">Web开发技术</span>
+                                <span class="teacher">李老师</span>
+                            </div>
+                            <div class="answer-preview">
+                                <div class="answer-label">老师回复：</div>
+                                <p class="answer-content">闭包是指有权访问另一个函数作用域中变量的函数。简单来说...</p>
+                                <button class="view-answer-btn">查看完整回复</button>
+                            </div>
+                        </div>
+
+                        <div class="question-card">
+                            <div class="question-header">
+                                <span class="question-id">#Q002</span>
+                                <span class="status-badge pending">待回答</span>
+                                <span class="question-time">1天前</span>
+                            </div>
+                            <h3 class="question-title">数据库索引优化建议</h3>
+                            <p class="question-content">我的学生管理系统查询效率很低，数据库有10万条学生记录，搜索一个学生信息需要3-5秒，应该如何优化？</p>
+                            <div class="question-meta">
+                                <span class="subject">数据库原理</span>
+                                <span class="teacher">王老师</span>
+                            </div>
+                            <div class="waiting-answer">
+                                <div class="waiting-icon"></div>
+                                <span>等待老师回答中...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 教师视图 - 作业管理 -->
+                <div class="view-section" id="homework-management" style="display: none;">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon pending-icon"></div>
+                            <div class="stat-info">
+                                <div class="stat-number">25</div>
+                                <div class="stat-label">待批改作业</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon completed-icon"></div>
+                            <div class="stat-info">
+                                <div class="stat-number">87</div>
+                                <div class="stat-label">已批改作业</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon students-icon"></div>
+                            <div class="stat-info">
+                                <div class="stat-number">156</div>
+                                <div class="stat-label">班级学生数</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <h2 class="section-title">作业管理</h2>
+                        <button class="primary-btn" id="createHomeworkBtn">发布新作业</button>
+                    </div>
+
+                    <div class="homework-management-list">
+                        <div class="management-card">
+                            <div class="management-header">
+                                <h3 class="homework-title">JavaScript基础语法练习</h3>
+                                <div class="management-stats">
+                                    <span class="stat-item">提交率：15/18</span>
+                                    <span class="stat-item">批改率：12/15</span>
+                                </div>
+                            </div>
+                            <p class="homework-desc">完成教材第三章所有例题的编程练习，包括变量声明、函数定义和对象操作。</p>
+                            <div class="homework-meta">
+                                <span class="deadline">截止时间：2025-12-05 23:59</span>
+                                <span class="subject">Web开发技术</span>
+                            </div>
+                            <div class="management-actions">
+                                <button class="secondary-btn">查看提交</button>
+                                <button class="secondary-btn">批量批改</button>
+                                <button class="primary-btn">编辑作业</button>
+                            </div>
+                        </div>
+
+                        <div class="management-card">
+                            <div class="management-header">
+                                <h3 class="homework-title">数据库设计项目</h3>
+                                <div class="management-stats">
+                                    <span class="stat-item">提交率：18/18</span>
+                                    <span class="stat-item">批改率：16/18</span>
+                                </div>
+                            </div>
+                            <p class="homework-desc">设计一个学生管理系统的数据库，包括ER图绘制和SQL建表语句。</p>
+                            <div class="homework-meta">
+                                <span class="deadline">截止时间：2025-11-30 23:59</span>
+                                <span class="subject">数据库原理</span>
+                            </div>
+                            <div class="management-actions">
+                                <button class="secondary-btn">查看提交</button>
+                                <button class="secondary-btn">查看统计</button>
+                                <button class="secondary-btn">导出成绩</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 教师视图 - 学生问答 -->
+                <div class="view-section" id="student-qa" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">学生问题</h2>
+                        <div class="filter-tabs">
+                            <button class="tab-btn active" data-status="all">全部</button>
+                            <button class="tab-btn" data-status="pending">待回答</button>
+                            <button class="tab-btn" data-status="answered">已回答</button>
+                        </div>
+                    </div>
+
+                    <div class="questions-list">
+                        <div class="question-card teacher-view">
+                            <div class="question-header">
+                                <div class="student-info">
+                                    <div class="student-avatar">李</div>
+                                    <div>
+                                        <span class="student-name">李小明</span>
+                                        <span class="student-class">Web开发2班</span>
+                                    </div>
+                                </div>
+                                <span class="question-time">2小时前</span>
+                            </div>
+                            <h3 class="question-title">关于JavaScript闭包的理解问题</h3>
+                            <p class="question-content">在学习闭包概念时，对作用域链的理解有些困惑，能否通过一个具体的例子来说明？</p>
+                            <div class="question-meta">
+                                <span class="subject">Web开发技术</span>
+                            </div>
+                            <div class="answer-actions">
+                                <button class="primary-btn">回答问题</button>
+                                <button class="secondary-btn">查看详情</button>
+                            </div>
+                        </div>
+
+                        <div class="question-card teacher-view answered">
+                            <div class="question-header">
+                                <div class="student-info">
+                                    <div class="student-avatar">王</div>
+                                    <div>
+                                        <span class="student-name">王芳</span>
+                                        <span class="student-class">数据库1班</span>
+                                    </div>
+                                </div>
+                                <span class="question-time">1天前</span>
+                            </div>
+                            <h3 class="question-title">数据库索引优化建议</h3>
+                            <p class="question-content">我的学生管理系统查询效率很低，数据库有10万条学生记录，搜索一个学生信息需要3-5秒，应该如何优化？</p>
+                            <div class="question-meta">
+                                <span class="subject">数据库原理</span>
+                            </div>
+                            <div class="answer-preview">
+                                <div class="answer-label">我的回复：</div>
+                                <p class="answer-content">对于大量数据的查询优化，可以从以下几个方面入手：1. 创建合适的索引...</p>
+                                <button class="view-answer-btn">查看完整回复</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已完成/班级列表视图 -->
+                <div class="view-section" id="completed" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">已完成作业</h2>
+                    </div>
+
+                    <div class="completed-list">
+                        <div class="completed-item">
+                            <div class="completed-info">
+                                <h3 class="completed-title">网页布局实战</h3>
+                                <div class="completed-meta">
+                                    <span class="subject">前端开发</span>
+                                    <span class="score">得分：92分</span>
+                                    <span class="submit-time">提交时间：2025-11-24</span>
+                                </div>
+                            </div>
+                            <div class="completed-actions">
+                                <button class="secondary-btn">查看评语</button>
+                                <button class="secondary-btn">下载文件</button>
+                            </div>
+                        </div>
+
+                        <div class="completed-item">
+                            <div class="completed-info">
+                                <h3 class="completed-title">HTML基础标签练习</h3>
+                                <div class="completed-meta">
+                                    <span class="subject">前端开发</span>
+                                    <span class="score">得分：88分</span>
+                                    <span class="submit-time">提交时间：2025-11-20</span>
+                                </div>
+                            </div>
+                            <div class="completed-actions">
+                                <button class="secondary-btn">查看评语</button>
+                                <button class="secondary-btn">下载文件</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 班级列表视图 -->
+                <div class="view-section" id="class-list" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">班级学生列表</h2>
+                        <div class="class-selector">
+                            <select class="class-select">
+                                <option>Web开发技术2班 (18人)</option>
+                                <option>数据库原理1班 (22人)</option>
+                                <option>前端开发基础3班 (15人)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="students-table">
+                        <div class="table-header">
+                            <div class="col col-name">姓名</div>
+                            <div class="col col-id">学号</div>
+                            <div class="col col-status">作业完成情况</div>
+                            <div class="col col-rate">完成率</div>
+                            <div class="col col-actions">操作</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="col col-name">
+                                <div class="student-info">
+                                    <div class="student-avatar">张</div>
+                                    <span>张小明</span>
+                                </div>
+                            </div>
+                            <div class="col col-id">2021001</div>
+                            <div class="col col-status">
+                                <span class="status-excellent">优秀</span>
+                                <span class="status-detail">15/16</span>
+                            </div>
+                            <div class="col col-rate">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 94%"></div>
+                                </div>
+                                <span class="progress-text">94%</span>
+                            </div>
+                            <div class="col col-actions">
+                                <button class="action-btn">查看详情</button>
+                            </div>
+                        </div>
+
+                        <div class="table-row">
+                            <div class="col col-name">
+                                <div class="student-info">
+                                    <div class="student-avatar">李</div>
+                                    <span>李小红</span>
+                                </div>
+                            </div>
+                            <div class="col col-id">2021002</div>
+                            <div class="col col-status">
+                                <span class="status-good">良好</span>
+                                <span class="status-detail">12/16</span>
+                            </div>
+                            <div class="col col-rate">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%"></div>
+                                </div>
+                                <span class="progress-text">75%</span>
+                            </div>
+                            <div class="col col-actions">
+                                <button class="action-btn">查看详情</button>
+                            </div>
+                        </div>
+
+                        <div class="table-row">
+                            <div class="col col-name">
+                                <div class="student-info">
+                                    <div class="student-avatar">王</div>
+                                    <span>王大强</span>
+                                </div>
+                            </div>
+                            <div class="col col-id">2021003</div>
+                            <div class="col col-status">
+                                <span class="status-poor">需改进</span>
+                                <span class="status-detail">8/16</span>
+                            </div>
+                            <div class="col col-rate">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 50%"></div>
+                                </div>
+                                <span class="progress-text">50%</span>
+                            </div>
+                            <div class="col col-actions">
+                                <button class="action-btn">查看详情</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 提问模态框 -->
+    <div class="modal" id="questionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">提出问题</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form class="question-form" id="questionForm">
+                <div class="form-group">
+                    <label for="questionTitle">问题标题</label>
+                    <input type="text" id="questionTitle" class="form-input" placeholder="请简要描述您的问题" required>
+                </div>
+                <div class="form-group">
+                    <label for="questionSubject">选择课程</label>
+                    <select id="questionSubject" class="form-select" required>
+                        <option value="">请选择课程</option>
+                        <option value="web">Web开发技术</option>
+                        <option value="database">数据库原理</option>
+                        <option value="frontend">前端开发</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="questionContent">详细描述</label>
+                    <textarea id="questionContent" class="form-textarea" placeholder="请详细描述您遇到的问题，附上相关的代码或截图" rows="6" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelQuestion">取消</button>
+                    <button type="submit" class="primary-btn">提交问题</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 发布作业模态框 -->
+    <div class="modal" id="homeworkModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">发布新作业</h2>
+                <button class="close-btn" id="closeHomeworkModal">&times;</button>
+            </div>
+            <form class="homework-form" id="homeworkForm">
+                <div class="form-group">
+                    <label for="homeworkTitle">作业标题</label>
+                    <input type="text" id="homeworkTitle" class="form-input" placeholder="请输入作业标题" required>
+                </div>
+                <div class="form-group">
+                    <label for="homeworkSubject">选择课程</label>
+                    <select id="homeworkSubject" class="form-select" required>
+                        <option value="">请选择课程</option>
+                        <option value="web">Web开发技术</option>
+                        <option value="database">数据库原理</option>
+                        <option value="frontend">前端开发</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="homeworkClass">选择班级</label>
+                    <select id="homeworkClass" class="form-select" required>
+                        <option value="">请选择班级</option>
+                        <option value="class1">Web开发技术2班</option>
+                        <option value="class2">数据库原理1班</option>
+                        <option value="class3">前端开发基础3班</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="homeworkDeadline">截止时间</label>
+                    <input type="datetime-local" id="homeworkDeadline" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="homeworkContent">作业要求</label>
+                    <textarea id="homeworkContent" class="form-textarea" placeholder="请详细描述作业要求和提交格式" rows="6" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelHomework">取消</button>
+                    <button type="submit" class="primary-btn">发布作业</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>
